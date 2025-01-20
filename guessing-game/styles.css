@@ -1,0 +1,23 @@
+body{
+    place-content: center;
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+    margin: 0;
+
+}
+
+#box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70vw;
+    height: 75vh;
+    border: solid 2px red;
+}
+
+#start{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
