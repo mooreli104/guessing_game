@@ -20,4 +20,7 @@ header = {
     'X-MAL-CLIENT-ID': CLIENT_ID
 }
 response = requests.get(url,headers=header).json()
-print(response)
+for x in response['data']:
+    print('Rank: ' + str(x['ranking']['rank']) + '\n' + 'Title: ' + x['node']['title'] + '\n' + 'Image url: ' + x['node']['main_picture']['large']+'\n') 
+
+
