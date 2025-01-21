@@ -1,11 +1,9 @@
 <script setup>
 import Start from './components/Start.vue'
-
-
 fetch('http://127.0.0.1:5000')
     .then(response => response.json())
     .then(data => {
-        console.log(data.message); // Output: "Hello from Python!"
+        console.log(data[0]['image_url'])
     });
 </script>
 
@@ -13,6 +11,7 @@ fetch('http://127.0.0.1:5000')
 <template>
     <div class="game">
         <h1>Guess the Anime</h1>
+        <img src = 'https://cdn.myanimelist.net/images/anime/1855/128059l.jpg'>
         <Start>HELLO</Start>
         <button @click="anime = !anime">TOGGLE</button>
         <div v-if="anime">
@@ -21,6 +20,7 @@ fetch('http://127.0.0.1:5000')
             <button @click="check_answer">Check Answer</button>
         </div>
     </div>
+
 </template>
 
 
