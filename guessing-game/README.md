@@ -27,3 +27,8 @@ npm run dev
 ```sh
 npm run build
 ```
+Things we'll need:
+1. Websockets
+2. Vue
+3. Backend - probably python
+4. MAL API
