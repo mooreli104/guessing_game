@@ -1,6 +1,12 @@
 <script setup>
 import Start from './components/Start.vue'
 
+
+fetch('http://127.0.0.1:5000')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message); // Output: "Hello from Python!"
+    });
 </script>
 
 
@@ -23,7 +29,7 @@ import Start from './components/Start.vue'
 
 </style>
 
-<script>
+<!-- <script>
 export default {
     data() {
         return {
@@ -44,4 +50,4 @@ methods: {
         }
     }
 }
-</script>
+</script> -->
