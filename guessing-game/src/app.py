@@ -6,34 +6,35 @@ import os
 
 load_dotenv()
 
+from flask import Flask
+
 app = Flask(__name__)
 
-CLIENT_ID = os.getenv('CLIENT_ID')
-CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
 
-# Gets the most popular anime from MAL 
-# Offset will offset rankings, so instead of the 1, 2, 3, most popular anime 
-# offset of 100 returns the 101, 102, 103 most popular anime
-url = 'https://api.myanimelist.net/v2/anime/ranking?ranking_type=all&limit=4&offset=1000'
+# CLIENT_ID = os.getenv('CLIENT_ID')
+# CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
-header = {
-    'X-MAL-CLIENT-ID': CLIENT_ID
-}
+# # Gets the most popular anime from MAL 
+# # Offset will offset rankings, so instead of the 1, 2, 3, most popular anime 
+# # offset of 100 returns the 101, 102, 103 most popular anime
+# url = 'https://api.myanimelist.net/v2/anime/ranking?ranking_type=all&limit=4&offset=1000'
 
+# header = {
+#     'X-MAL-CLIENT-ID': CLIENT_ID
+# }
 
-url2 = 'https://api.myanimelist.net/v2/anime/30230?fields=alternative_titles'
-object = requests.get(url2, headers =header).json()
-print(object['alternative_titles'])
+# response = requests.get(url,headers=header).json()
+# for x in response['data']:
+#     anime_id = x['node']['id']
+#     alternative_titles_url = f'https://api.myanimelist.net/v2/anime/{anime_id}?fields=alternative_titles'
+#     alternative_titles = requests.get(alternative_titles_url, headers =header).json()['alternative_titles']['synonyms']
+#     english = requests.get(alternative_titles_url, headers =header).json()['alternative_titles']['en']
 
+    
 
-response = requests.get(url,headers=header).json()
-for x in response['data']:
-    anime_id = x['node']['id']
-    url2 = f'https://api.myanimelist.net/v2/anime/{anime_id}'
-    object = requests.get(url2, headers =header).json()
-    if 'alternative_titles' in object:
-        print(object['alternative_titles'])
-
-    print('Rank: ' + str(x['ranking']['rank']) + '\n' + 'Title: ' + x['node']['title'] + '\n' + 'Image url: ' + x['node']['main_picture']['large']+'\n') 
+#     print('Rank: ' + str(x['ranking']['rank']) + '\n' + 'Title: ' + x['node']['title'] + '\n' + 'Alternative Titles: ' + str(alternative_titles) + '; ' + str(english) + '\n'+ 'Image url: ' + x['node']['main_picture']['large']+'\n') 
 
 
