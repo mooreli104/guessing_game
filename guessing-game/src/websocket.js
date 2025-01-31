@@ -8,9 +8,14 @@ export const socket = io(URL);
 
 export const state = reactive({
     connected: false,
+    name: "",
     fooEvents: [],
     barEvents: []
   });
+
+socket.on("sendUsername", (data) => {
+  state.name = data;
+});
 
 socket.on("connect", () => {
   state.connected = true;
