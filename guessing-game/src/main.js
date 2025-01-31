@@ -1,6 +1,5 @@
 import './assets/main.css'
 
-
 //Import VueRouter dependents
 import { createMemoryHistory, createRouter } from 'vue-router'
 import { createApp } from 'vue'
@@ -14,7 +13,8 @@ import GamePage from './components/Game.vue'
 //Define routes
 const routes = [
     { path: '/', component: HomePage },
-    { path: '/lobby/:username', name: 'lobby', component: LobbyPage }, // :username means that username is a parameter
+    {path: '/lobby', component: LobbyPage},
+    // { path: '/lobby/:username', name: 'lobby', component: LobbyPage }, // :username means that username is a parameter
     { path: '/game', name: 'game', component: GamePage },
   ]
   

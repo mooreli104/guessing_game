@@ -2,14 +2,19 @@
 
   import { useRouter } from 'vue-router'
   import { ref } from 'vue'
+  import { socket } from '../websocket'
+
+  
   
   // Uses router from main.js to push Lobby page
   const router = useRouter()  
   const username = ref(''); //username is linked with v-model = "username"
-  const goToLobby = () => {
-    router.push({ name: 'lobby', params: { username: username.value } })
-  }
 
+  const goToLobby = () => {
+    // router.push({ name: 'lobby', params: { username: username.value } })
+    router.push("/lobby")
+    socket.emit("username", username.value)
+  }
 </script>
 
 <template>
