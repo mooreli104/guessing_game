@@ -1,5 +1,10 @@
 <script setup>
-   const props = defineProps(['username'])
+import {state} from "../websocket"
+import { ref } from 'vue'
+
+
+const name = ref(state.name)
+// const props = defineProps(['username'])
 </script>
 
 <template>
@@ -7,8 +12,7 @@
 
     <div id = "player">
         <span class="material-symbols-outlined icon">person</span>
-        <div v-if="username">{{$route.params.username}}</div>
-        <div v-else>Empty</div>
+        <div>{{ name }}</div>
     </div>
 </template>
 
