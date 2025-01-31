@@ -30,8 +30,11 @@ io.on("connection", (socket) => {
 
   socket.join("room")
   console.log(`User connected: ${socket.id}`);
+
   socket.on("username", (data) => {
+    console.log(data)
     socket.emit("sendUsername", data)
+    // socket.emit("createPlayerComponent", data)
   })
 
 
