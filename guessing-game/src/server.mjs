@@ -3,6 +3,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 
+
 const app = express();
 const server = createServer(app);
 
@@ -12,41 +13,57 @@ const io = new Server(server, {
     origin: "http://localhost:5173", // Vue.js app URL
     methods: ["GET", "POST"],
     transports: ['websocket', 'polling'],
-    credentials: true,
+    credentials: true, //Need for developement, authenticates communication between servers
   },
-  allowEIO3: true
+  allowEIO3: true //Allows communication between mismatch SocketIO client and server versions
 });
 
 app.use(cors());
 app.get("/", (req, res) => {
   res.send("Socket.IO Server is Running");
-  
 });
 
+let players = [] //Server side instance of players
 
-const players = [];
-// Handle socket connection
 io.on("connection", (socket) => {
 
-  socket.join("room")
-  console.log(`User connected: ${socket.id}`);
-
-  socket.on("username", (data) => {
-    console.log(data)
-    socket.emit("sendUsername", data)
-    // socket.emit("createPlayerComponent", data)
+  /*
+   * Defines an event listener for "join-lobby" event and recieves "username". Once the server 
+   * hears a "join-lobby" event, it will add the client to a room and push client 
+   * details to the "players" array with socket.id and username. Lastly, emits an
+   * event called "connected" to all users in the room.
+   */
+  socket.on("join-lobby", (username) => {
+    socket.join("room1");
+    players.push({
+      id: socket.id,
+      name: username
+    })
+    io.to('room1').emit("connected", players)
   })
 
+  /*
+   * Defines an event listener for "disconnect" event. When a client disconnects,
+   * the server will filter the "players" array and keep all clients that do not
+   * share the same socket.id as the client who disconnected from the server. Then,
+   * The server emits a "disconnected" event to all players in "room1" with the newly
+   * updated "players" array.
+   */
+  socket.on("disconnect", () => {
+    players = players.filter((player) => player.id !== socket.id)
+    io.to('room1').emit("disconnected", players)
 
-  // socket.on("message", (data) => {
-  //   console.log(`Received message: ${data}`);
-  //   io.emit("message", data); // Broadcast to all clients
-  // });
+  });
 
+  /*
+   * Defines an event listener for the "start-game" event. When "start-game"
+   * is emitted, emit 2 events called "connected" and "send-to-game.""
+   */
+  socket.on("start-game", (playing_players) => {
+    io.to('room1').emit("connected", playing_players)
+    io.to('room1').emit("send-to-game", '/game')
+  });
 
-  // socket.on("disconnect", () => {
-  //   console.log(`User disconnected: ${socket.id}`);
-  // });
 });
 
 server.listen(3000, () => {
