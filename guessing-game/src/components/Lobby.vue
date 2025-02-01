@@ -16,14 +16,6 @@ const goToGame = () => {
   socket.emit("start-game", players.value) // Emits an event called "start-game"
 }
 
-/*
- * Event listener for "send-to-game" that routes all users
- * to the received route.
- */
-socket.on("send-to-game", (route) => {
-  router.push(route)
-})
-
 </script>
 
 <template>
