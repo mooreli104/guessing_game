@@ -12,15 +12,15 @@ import GamePage from './components/Game.vue'
 
 //Define routes
 const routes = [
-    { path: '/', component: HomePage },
-    { path: '/lobby', component: LobbyPage},
-    // { path: '/lobby/:username', name: 'lobby', component: LobbyPage }, // :username means that username is a parameter
-    { path: '/game', component: GamePage },
-  ]
-  
-  const router = createRouter({
-    history: createMemoryHistory(),
-    routes,
-  })
+  { path: '/', component: HomePage },
+  { path: '/lobby', component: LobbyPage },
+  // { path: '/lobby/:username', name: 'lobby', component: LobbyPage }, // :username means that username is a parameter
+  { path: '/game', component: GamePage },
+]
+
+const router = createRouter({
+  history: createMemoryHistory(),
+  routes,
+})
 
 createApp(App).use(router).mount('#homepage')
