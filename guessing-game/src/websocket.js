@@ -1,34 +1,21 @@
-import { reactive } from "vue";
-import io from "socket.io-client";
+import { ref } from "vue"
+import io from "socket.io-client"
 
 // "undefined" means the URL will be computed from the `window.location` object
 const URL = process.env.NODE_ENV === "production" ? undefined : "http://localhost:3000";
 
 export const socket = io(URL);
+export let state;
+export let players = ref([])
 
-export const state = reactive({
-    connected: false,
-    name: "",
-    fooEvents: [],
-    barEvents: []
-  });
+socket.on("connected", (server_players) => {
+  players.value = server_players
+})
 
-socket.on("sendUsername", (data) => {
-  state.name = data;
-});
+socket.on('disconnected', (server_players) => {
+  players.value = server_players
+})
 
-socket.on("connect", () => {
-  state.connected = true;
-});
-
-socket.on("disconnect", () => {
-  state.connected = false;
-});
-
-socket.on("foo", (...args) => {
-  state.fooEvents.push(args);
-});
-
-socket.on("bar", (...args) => {
-  state.barEvents.push(args);
-});
+socket.on('start-game', (playing_players) => {
+  players.value = playing_players
+})
