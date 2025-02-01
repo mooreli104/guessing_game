@@ -1,38 +1,60 @@
 <script setup>
+
 import Player from './Player.vue'
 import { useRouter } from 'vue-router'
+import { players } from '../websocket'
+import { socket } from '../websocket'
 
-// import io from 'socket.io-client'
-// Uses router from main.js to push Lobby page
-  const router = useRouter()
+const router = useRouter() // Uses router from main.js to push Lobby page
 
-  const goToHome = () => {
-    router.push('/')
-  }
 
-  const goToGame = () => {
-    router.push('/game')
-  }
+const goToHome = () => {
+  router.push('/')
+}
 
+const goToGame = () => {
+  socket.emit("start-game", players.value) // Emits an event called "start-game"
+}
+
+/*
+ * Event listener for "send-to-game" that routes all users
+ * to the received route.
+ */
+socket.on("send-to-game", (route) => {
+  router.push(route)
+})
 
 </script>
 
 <template>
-    <button @click = "goToHome">HOME</button>
-
-    <div>
-    <Player></Player>
-    <Player></Player>
-    <Player></Player>
-    <Player></Player>
-    <Player></Player>
+  <div id="container">
+    <button @click="goToHome">HOME</button>
+    <div id="players">
+      <ul v-for="item in players"> <!-- Vue directive v-for renders all items in import players array -->
+        <Player :username=item.name></Player> <!-- Creates a Player component with v-bind:username = item.name -->
+      </ul>
     </div>
-    
-    <button @click = "goToGame">Start Game</button>
+
+    <button @click="goToGame">Start Game</button>
     <!-- <button @click = "invite">Invite</button> -->
+  </div>
 </template>
 
 <style scoped>
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
+#players {
+  display: flex;
+  flex-direction: column;
+}
 
+ul {
+  list-style: none;
+  padding: 0;
+}
 </style>
