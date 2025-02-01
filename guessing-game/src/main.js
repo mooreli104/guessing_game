@@ -18,7 +18,7 @@ const routes = [
   { path: '/game', component: GamePage },
 ]
 
-const router = createRouter({
+export const router = createRouter({
   history: createMemoryHistory(),
   routes,
 })
