@@ -6,7 +6,25 @@ import cors from "cors";
 
 const app = express();
 const server = createServer(app);
+let img_url = ""
+let players = [] 
 
+
+async function getImageURL() {
+  const url = "http://127.0.0.1:5000";
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    const json = await response.json();
+    img_url = json[0]['image_url']
+    console.log(json[0]['rank'])
+  } catch (error) {
+    console.error(error.message);
+  }
+
+}
 
 const io = new Server(server, {
   cors: {
@@ -23,7 +41,6 @@ app.get("/", (req, res) => {
   res.send("Socket.IO Server is Running");
 });
 
-let players = [] //Server side instance of players
 
 io.on("connection", (socket) => {
 
@@ -61,7 +78,8 @@ io.on("connection", (socket) => {
    */
   socket.on("start-game", (playing_players) => {
     io.to('room1').emit("connected", playing_players)
-    io.to('room1').emit("send-to-game", '/game')
+    getImageURL()
+    io.to('room1').emit("send-to-game", {route: '/game', url: img_url})
   });
 
 });
