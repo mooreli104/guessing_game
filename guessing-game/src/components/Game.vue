@@ -3,11 +3,13 @@ import { useRouter } from 'vue-router'
 import { players } from '../websocket'
 import { img_url } from '../websocket'
 import Player from './Player.vue'
+import { socket } from '../websocket'
 
 const router = useRouter()
 
 const leave = () => {
     router.push('/')
+    socket.disconnect()
 }
 </script>
 
