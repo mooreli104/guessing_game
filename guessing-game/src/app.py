@@ -1,24 +1,26 @@
 from flask import Flask, jsonify
 from dotenv import load_dotenv
 import requests
-import secrets
 import os
 from flask import Flask
 from flask_cors import CORS
+import random
 
 load_dotenv()
-
 app = Flask(__name__)
 CORS(app)
 
+count = 0
+
 @app.route("/")
 def hello_world():
+    global count
     CLIENT_ID = os.getenv('CLIENT_ID')
     # Gets the most popular anime from MAL 
     # Offset will offset rankings, so instead of the 1, 2, 3, most popular anime 
     # offset of 100 returns the 101, 102, 103 most popular anime
-    url = 'https://api.myanimelist.net/v2/anime/ranking?ranking_type=all&limit=4&offset=500'
-
+    url = f'https://api.myanimelist.net/v2/anime/ranking?ranking_type=all&limit=1&offset={random.randint(1,10)}'
+    count = count+10
     header = {
         'X-MAL-CLIENT-ID': CLIENT_ID
     }
