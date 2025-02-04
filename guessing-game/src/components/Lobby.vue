@@ -28,7 +28,6 @@ const goToGame = () => {
     </div>
 
     <button @click="goToGame">Start Game</button>
-    <!-- <button @click = "invite">Invite</button> -->
   </div>
 </template>
 
