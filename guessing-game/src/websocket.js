@@ -28,3 +28,4 @@ socket.on("send-to-game", (object) => {
   img_url.value = object.url
   router.push(object.route)
 })
+

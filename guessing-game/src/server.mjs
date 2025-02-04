@@ -81,6 +81,10 @@ io.on("connection", (socket) => {
     getImageURL()   
   });
 
+  socket.on("guess", (guess) => {
+    console.log(`Player ${socket.id}} guessed ${guess}`)
+  })
+  
 
 });
 
