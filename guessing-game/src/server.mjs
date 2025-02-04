@@ -19,7 +19,7 @@ async function getImageURL() {
     }
     const json = await response.json();
     img_url = json[0]['image_url']
-    console.log(json[0]['rank'])
+    io.to('room1').emit("send-to-game", {route: '/game', url: img_url})
   } catch (error) {
     console.error(error.message);
   }
@@ -78,9 +78,9 @@ io.on("connection", (socket) => {
    */
   socket.on("start-game", (playing_players) => {
     io.to('room1').emit("connected", playing_players)
-    getImageURL()
-    io.to('room1').emit("send-to-game", {route: '/game', url: img_url})
+    getImageURL()   
   });
+
 
 });
 
