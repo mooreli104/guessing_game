@@ -19,7 +19,9 @@ def hello_world():
     # Gets the most popular anime from MAL 
     # Offset will offset rankings, so instead of the 1, 2, 3, most popular anime 
     # offset of 100 returns the 101, 102, 103 most popular anime
-    url = f'https://api.myanimelist.net/v2/anime/ranking?ranking_type=all&limit=1&offset={random.randint(1,10)}'
+    offset = random.randint(1,10)+count
+    url = f'https://api.myanimelist.net/v2/anime/ranking?ranking_type=all&limit=1&offset={offset}'
+    print(offset)
     count = count+10
     header = {
         'X-MAL-CLIENT-ID': CLIENT_ID
