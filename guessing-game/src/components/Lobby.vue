@@ -16,6 +16,10 @@ const goToGame = () => {
   socket.emit("start-game", players.value) // Emits an event called "start-game"
 }
 
+const invitePlayers = () => {
+
+}
+
 </script>
 
 <template>
@@ -26,7 +30,10 @@ const goToGame = () => {
         <Player :username=item.name></Player> <!-- Creates a Player component with v-bind:username = item.name -->
       </ul>
     </div>
-    <button @click.once = "goToGame"> Start Game</button>
+    <div id="buttons">
+      <button @click.once="goToGame"> Start Game</button>
+      <button @click.once="invitePlayers"> Invite</button>
+    </div>
   </div>
 </template>
 
