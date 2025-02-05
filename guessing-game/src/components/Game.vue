@@ -2,9 +2,7 @@
 import Player from './Player.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { players } from '../websocket'
-import { img_url } from '../websocket'
-import { socket } from '../websocket'
+import { players, rank, img_url, socket } from '../websocket'
 
 const router = useRouter()
 const guess = ref('')
@@ -12,9 +10,10 @@ const guess = ref('')
 const leave = () => {
     router.push('/')
     socket.disconnect()
+    location.reload();
 }
 
-const make_guess = () =>{
+const make_guess = () => {
     socket.emit("guess", guess.value)
 }
 
@@ -26,27 +25,28 @@ const make_guess = () =>{
     <button @click="leave">Leave</button>
     <div class="container">
 
-    <div class="guess">
-    <div id="images"><img :src="img_url" alt="anime_image"></div>
-    <input type="text" v-model="guess" placeholder="Guess!">
-    <button type="submit" value="Start" @click="make_guess">Guess</button>
+        <div class="guess">
+            <div id="images"><img :src="img_url" alt="anime_image"></div>
+            <input type="text" v-model="guess" placeholder="Guess!">
+            <button type="submit" value="Start" @click="make_guess">Guess</button>
+            <div> Anime rank: {{ rank }}</div>
+        </div>
 
-</div>
-
-    <div id="players">
-        <ul v-for="item in players">
-            <Player :username=item.name></Player>
-        </ul>
+        <div id="players">
+            <ul v-for="item in players">
+                <Player :username=item.name></Player>
+            </ul>
+        </div>
     </div>
-</div>
 </template>
 
 
 <style scoped>
-.container{
+.container {
     display: flex;
-    
+
 }
+
 #players {
     display: flex;
     flex-direction: column;
