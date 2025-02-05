@@ -9,10 +9,10 @@ const server = createServer(app);
 let img_url = ""
 let alternative_titles = ""
 let rank;
-let players = [] 
+let players = []
 
 
-async function getImageURL() {
+async function getAnime() {
   const url = "http://127.0.0.1:5000";
   try {
     const response = await fetch(url);
@@ -20,15 +20,19 @@ async function getImageURL() {
       throw new Error(`Response status: ${response.status}`);
     }
     const json = await response.json();
-    img_url = json[0]['image_url']
-    alternative_titles = json[0]['alternative_titles']
-    rank = json[0]['rank']
-    console.log(alternative_titles)
-    io.to('room1').emit("send-to-game", {route: '/game', url: img_url, rank: rank})
+    extractData(json)
   } catch (error) {
     console.error(error.message);
   }
 
+}
+
+function extractData(json) {
+  img_url = json[0]['image_url']
+  alternative_titles = json[0]['alternative_titles']
+  rank = json[0]['rank']
+  console.log(alternative_titles)
+  io.to('room1').emit("send-to-game", { route: '/game', url: img_url, rank: rank })
 }
 
 const io = new Server(server, {
@@ -83,13 +87,13 @@ io.on("connection", (socket) => {
    */
   socket.on("start-game", (playing_players) => {
     io.to('room1').emit("connected", playing_players)
-    getImageURL()   
+    getAnime()
   });
 
   socket.on("guess", (guess) => {
     console.log(`Player ${socket.id}} guessed ${guess}`)
   })
-  
+
 });
 
 
