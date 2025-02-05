@@ -7,6 +7,8 @@ import cors from "cors";
 const app = express();
 const server = createServer(app);
 let img_url = ""
+let alternative_titles = ""
+let rank;
 let players = [] 
 
 
@@ -19,7 +21,10 @@ async function getImageURL() {
     }
     const json = await response.json();
     img_url = json[0]['image_url']
-    io.to('room1').emit("send-to-game", {route: '/game', url: img_url})
+    alternative_titles = json[0]['alternative_titles']
+    rank = json[0]['rank']
+    console.log(alternative_titles)
+    io.to('room1').emit("send-to-game", {route: '/game', url: img_url, rank: rank})
   } catch (error) {
     console.error(error.message);
   }
@@ -85,8 +90,9 @@ io.on("connection", (socket) => {
     console.log(`Player ${socket.id}} guessed ${guess}`)
   })
   
-
 });
+
+
 
 server.listen(3000, () => {
   console.log("Server running on http://localhost:3000");
