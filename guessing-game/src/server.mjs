@@ -3,7 +3,6 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 
-
 const app = express();
 const server = createServer(app);
 let img_url = ""
@@ -31,8 +30,21 @@ function extractData(json) {
   img_url = json[0]['image_url']
   alternative_titles = json[0]['alternative_titles']
   rank = json[0]['rank']
-  console.log(alternative_titles)
-  io.to('room1').emit("send-to-game", { route: '/game', url: img_url, rank: rank })
+  io.to('room1').emit("send-to-game", {
+    route: '/game',
+    url: img_url, 
+    rank: rank,
+    titles: alternative_titles
+  })
+}
+
+function getRandomId(){
+  const list = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+  let str = ""
+  for(let i = 0; i<4; i++){
+    str+=list.charAt(Math.random()*list.length)
+  }
+  return str
 }
 
 const io = new Server(server, {
@@ -60,12 +72,14 @@ io.on("connection", (socket) => {
    * event called "connected" to all users in the room.
    */
   socket.on("join-lobby", (username) => {
-    socket.join("room1");
+    const random_id = getRandomId()
+    socket.join(`room${random_id}`);
+    console.log(random_id)
     players.push({
       id: socket.id,
       name: username
     })
-    io.to('room1').emit("connected", players)
+    io.emit("connected", players)
   })
 
   /*
