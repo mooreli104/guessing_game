@@ -11,6 +11,7 @@ export const socket = io(URL);
 export let state;
 export let players = ref([])
 export let img_url = ref("")
+export let rank = ref()
 
 socket.on("connected", (server_players) => {
   players.value = server_players
@@ -26,6 +27,7 @@ socket.on('start-game', (playing_players) => {
 
 socket.on("send-to-game", (object) => {
   img_url.value = object.url
+  rank.value = object.rank
   router.push(object.route)
 })
 
