@@ -2,8 +2,8 @@
 
 import Player from './Player.vue'
 import { useRouter } from 'vue-router'
-import { players } from '../websocket'
-import { socket } from '../websocket'
+import { players, socket } from '../websocket'
+
 
 const router = useRouter() // Uses router from main.js to push Lobby page
 
@@ -26,8 +26,7 @@ const goToGame = () => {
         <Player :username=item.name></Player> <!-- Creates a Player component with v-bind:username = item.name -->
       </ul>
     </div>
-
-    <button @click="goToGame">Start Game</button>
+    <button @click.once = "goToGame"> Start Game</button>
   </div>
 </template>
 
