@@ -14,7 +14,7 @@ const props = defineProps({
     <div id="player">
         <span class="material-symbols-outlined icon">person</span>
         <div>{{ props.username }}</div> <!-- Passes value of username -->
-        <button v-if="props.opponent"  @click="invite">Invite</button>
+        <!-- <button v-if="props.opponent"  @click="invite">Invite</button> -->
     </div>
 </template>
 

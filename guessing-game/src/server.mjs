@@ -73,7 +73,8 @@ io.on("connection", (socket) => {
    */
   socket.on("join-lobby", (username) => {
     const random_id = getRandomId()
-    socket.join(`room${random_id}`);
+    // socket.join(`room${random_id}`);
+    socket.join('room1')
     console.log(random_id)
     players.push({
       id: socket.id,
