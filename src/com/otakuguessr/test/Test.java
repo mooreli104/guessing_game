@@ -1,4 +1,4 @@
-package src.com.otakuguessr;
+package com.otakuguessr.test;
 
 public class Test {
     public void test(){
